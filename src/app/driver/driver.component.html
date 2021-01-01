@@ -1,0 +1,21 @@
+<h1>Drivers</h1>
+
+<div>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Alias</th>
+        <th>Status</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor = "let driver of drivers">
+        <td>{{driver.id}}</td>
+        <td>{{driver.alias}}</td>
+        <td>{{driver.status}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
