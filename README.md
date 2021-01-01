@@ -1,3 +1,5 @@
+[This was the main tutorial](https://medium.com/@samgreen_22756/angular-8-with-rails-5-55cd186a02c9) I've followed to get this working. Other alternatives, like getting Angular served from `app/javascript`, didn't work so well for me.
+
 Angular
 ng new kombiz
 
