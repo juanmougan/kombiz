@@ -19,6 +19,7 @@
     "@angular/platform-browser": "~11.0.5",
     "@angular/platform-browser-dynamic": "~11.0.5",
     "@angular/router": "~11.0.5",
+    "@fortawesome/fontawesome-free": "^5.15.1",
     "@rails/webpacker": "4.3.0",
     "bootstrap": "^4.5.3",
     "rxjs": "~6.6.0",

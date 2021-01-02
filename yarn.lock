@@ -1084,6 +1084,11 @@
   "resolved" "https://registry.npmjs.org/@csstools/convert-colors/-/convert-colors-1.4.0.tgz"
   "version" "1.4.0"
 
+"@fortawesome/fontawesome-free@^5.15.1":
+  "integrity" "sha512-OEdH7SyC1suTdhBGW91/zBfR6qaIhThbcN8PUXtXilY4GYnSBbVqOntdHbC1vXwsDnX0Qix2m2+DSU1J51ybOQ=="
+  "resolved" "https://registry.npmjs.org/@fortawesome/fontawesome-free/-/fontawesome-free-5.15.1.tgz"
+  "version" "5.15.1"
+
 "@istanbuljs/schema@^0.1.2":
   "integrity" "sha512-tsAQNx32a8CoFhjhijUIhI4kccIAgmGhy8LZMZgGfmXcpMbPRUqn5LWmgRttILi6yeGmBJd2xsPkFMs0PzgPCw=="
   "resolved" "https://registry.npmjs.org/@istanbuljs/schema/-/schema-0.1.2.tgz"

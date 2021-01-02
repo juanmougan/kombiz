@@ -1,5 +1,5 @@
 import { DataService } from './../data.service';
-import { Driver } from './../model/Driver';
+import { Driver, VehicleType } from './../model/Driver';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -9,6 +9,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DriverComponent implements OnInit {
   drivers: Array<Driver>;
+  vehicleTypeEnum: VehicleType;
 
   constructor(private dataService: DataService) {}
 

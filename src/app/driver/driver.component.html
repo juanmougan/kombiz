@@ -7,6 +7,7 @@
         <th>ID</th>
         <th>Alias</th>
         <th>Status</th>
+        <th>Vehicle</th>
         <th></th>
       </tr>
     </thead>
@@ -15,6 +16,13 @@
         <td>{{driver.id}}</td>
         <td>{{driver.alias}}</td>
         <td>{{driver.status}}</td>
+        <td>
+          <i class="fas"
+            [ngClass]="{'fa-car-side' : driver.vehicleType === driver.vehicleTypeEnum.CAR}"
+            [ngClass]="{'fa-shuttle-van' : driver.vehicleType === driver.vehicleTypeEnum.VAN}"
+            [ngClass]="{'fa-truck' : driver.vehicleType === driver.vehicleTypeEnum.TRUCK}">
+          </i>
+        </td>
       </tr>
     </tbody>
   </table>
