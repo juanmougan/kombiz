@@ -3,7 +3,7 @@ export class Driver {
   alias: string;
   status: DriverStatus;
   vehicleType: VehicleType;
-  vehicleTypeEnum: typeof VehicleType; // Hacky way to use the enum on the component
+  vehicleTypeEnum: typeof VehicleType = VehicleType; // Hacky way to use the enum on the component
 }
 
 export enum DriverStatus {

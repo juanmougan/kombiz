@@ -1,3 +1,4 @@
+import { element } from 'protractor';
 import { DataService } from './../data.service';
 import { Driver, VehicleType } from './../model/Driver';
 import { Component, OnInit } from '@angular/core';
@@ -9,7 +10,6 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DriverComponent implements OnInit {
   drivers: Array<Driver>;
-  vehicleTypeEnum: VehicleType;
 
   constructor(private dataService: DataService) {}
 

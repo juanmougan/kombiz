@@ -35,9 +35,11 @@ Also, the routes file should look like this
 ```
 Rails.application.routes.draw do
   # Other routes before this
-  get '*other', to: 'static#index'
+  get '*path', to: 'static#index'
 end
 ```
+
+Since this is a SPA, we're going to use [Angular Router](https://angular.io/api/router) instead
 
 Add Foreman to the Gemfile
 
@@ -222,3 +224,152 @@ and also add the styles to the `angular.json` file:
 ],
 "scripts": ["node_modules/bootstrap/dist/js/bootstrap.min.js"]
 ```
+
+### Adding Font Awesome
+
+Install the free version: `npm install --save @fortawesome/fontawesome-free`
+
+Add the CSS to the `angular.json` file, otherwise the icons won't be rendered:
+
+```
+"styles": [
+  "src/styles.css",
+  "node_modules/bootstrap/dist/css/bootstrap.min.css",
+  "node_modules/@fortawesome/fontawesome-free/css/all.css"
+]
+```
+
+#### Changes in the model
+
+The model class now will look like this:
+
+```
+export class Driver {
+  ...
+  vehicleTypeEnum: typeof VehicleType = VehicleType; // Hacky way to use the enum on the component
+}
+
+...
+
+export enum VehicleType {
+  CAR = 'Car',
+  VAN = 'Van',
+  TRUCK = 'Truck',
+}
+```
+
+Add the new field to the datasource, so we get all the possible vehicle types:
+
+```
+constructor() {
+    this.drivers = new Array<Driver>();
+
+    const driver1 = new Driver();
+    driver1.id = 1;
+    driver1.alias = 'michael92';
+    driver1.status = DriverStatus.DRIVING;
+    driver1.vehicleType = VehicleType.CAR;
+    this.drivers.push(driver1);
+
+    const driver2 = new Driver();
+    driver2.id = 2;
+    driver2.alias = 'GiaCarDriver';
+    driver2.status = DriverStatus.IDLE;
+    driver1.vehicleType = VehicleType.VAN;
+    this.drivers.push(driver2);
+
+    const driver3 = new Driver();
+    driver3.id = 3;
+    driver3.alias = 'MarkZuckerberg';
+    driver3.status = DriverStatus.DISABLED;
+    driver1.vehicleType = VehicleType.TRUCK;
+    this.drivers.push(driver3);
+  }
+```
+
+The `driver.component.html` will look like this now:
+
+```
+<table class="table table-striped table-hover">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Alias</th>
+      <th>Status</th>
+      <th>Vehicle</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor = "let driver of drivers">
+      <td>{{driver.id}}</td>
+      <td>{{driver.alias}}</td>
+      <td>{{driver.status}}</td>
+      <td [ngSwitch]="driver.vehicleType">
+        <i *ngSwitchCase="driver.vehicleTypeEnum.CAR" class="fa fa-car-side"></i>
+        <i *ngSwitchCase="driver.vehicleTypeEnum.VAN" class="fa fa-shuttle-van"></i>
+        <i *ngSwitchCase="driver.vehicleTypeEnum.TRUCK" class="fa fa-truck"></i>
+      </td>
+    </tr>
+  </tbody>
+</table>
+```
+
+### Adding a 404 page
+
+To add a default 404 page, so that we make sure that all possible routes are properly handled, let's create a new component
+
+```
+ng g c page-not-found
+```
+
+I found [this](https://bootsnipp.com/snippets/Qb71) really simple and cool template that uses Bootstrap, let's add it to our `page-not-found.component.html`, making some minor corrections
+
+```
+<div class="container">
+  <div class="row">
+      <div class="col-md-12">
+          <div class="error-template">
+              <h1>
+                  Oops!</h1>
+              <h2>
+                  404 Not Found</h2>
+              <div class="error-details">
+                  Sorry, this page is not available.
+              </div>
+              <div class="error-actions">
+                  <a routerLink="/drivers" class="btn btn-primary btn-lg"><span class="glyphicon glyphicon-home"></span>
+                      Take Me Home </a><a routerLink="/drivers" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-envelope"></span> Contact Support </a>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+```
+
+Here, `routerLink="/drivers"` will redirect to our home component (we don't have a customer support component yet).  
+We also need to add this to our routes on `app-routing.module.ts`:
+
+```
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { DriverComponent } from './driver/driver.component';
+import { NgModule } from '@angular/core';
+import { Routes, RouterModule } from '@angular/router';
+
+const routes: Routes = [
+  { path: `drivers`, component: DriverComponent },
+  { path: ``, component: DriverComponent }, // For now, this is our home
+  { path: `404`, component: PageNotFoundComponent },
+  { path: `**`, redirectTo: `/404` }, // Wildcard must be at the end, matches all
+];
+```
+
+## Rails routing errors
+
+If you see an error, where Rails is complaining about finding a template
+
+```
+Missing template Users/juanma/dev/fullstack/kombiz/public/index.html with {:locale=>[:en], :formats=>[:html], :variants=>[], :handlers=>[:raw, :erb, :html, :builder, :ruby, :jbuilder]}. Searched in: * "/Users/juanma/dev/fullstack/kombiz/app/views" * "/Users/juanma/.rvm/gems/ruby-2.7.0/gems/actiontext-6.0.3.4/app/views" * "/Users/juanma/.rvm/gems/ruby-2.7.0/gems/actionmailbox-6.0.3.4/app/views" * "/Users/juanma/dev/fullstack/kombiz" * "/"
+```
+
+You should wait for the full frontend to finish building.

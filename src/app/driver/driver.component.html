@@ -16,12 +16,10 @@
         <td>{{driver.id}}</td>
         <td>{{driver.alias}}</td>
         <td>{{driver.status}}</td>
-        <td>
-          <i class="fas"
-            [ngClass]="{'fa-car-side' : driver.vehicleType === driver.vehicleTypeEnum.CAR}"
-            [ngClass]="{'fa-shuttle-van' : driver.vehicleType === driver.vehicleTypeEnum.VAN}"
-            [ngClass]="{'fa-truck' : driver.vehicleType === driver.vehicleTypeEnum.TRUCK}">
-          </i>
+        <td [ngSwitch]="driver.vehicleType">
+          <i *ngSwitchCase="driver.vehicleTypeEnum.CAR" class="fa fa-car-side"></i>
+          <i *ngSwitchCase="driver.vehicleTypeEnum.VAN" class="fa fa-shuttle-van"></i>
+          <i *ngSwitchCase="driver.vehicleTypeEnum.TRUCK" class="fa fa-truck"></i>
         </td>
       </tr>
     </tbody>
