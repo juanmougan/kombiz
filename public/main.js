@@ -89,7 +89,7 @@ class DriverComponent {
     }
 }
 DriverComponent.ɵfac = function DriverComponent_Factory(t) { return new (t || DriverComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_data_service__WEBPACK_IMPORTED_MODULE_1__["DataService"])); };
-DriverComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: DriverComponent, selectors: [["app-driver"]], decls: 15, vars: 1, consts: [[1, "table"], [4, "ngFor", "ngForOf"]], template: function DriverComponent_Template(rf, ctx) { if (rf & 1) {
+DriverComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: DriverComponent, selectors: [["app-driver"]], decls: 15, vars: 1, consts: [[1, "table", "table-striped", "table-hover"], [4, "ngFor", "ngForOf"]], template: function DriverComponent_Template(rf, ctx) { if (rf & 1) {
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "h1");
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](1, "Drivers");
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();

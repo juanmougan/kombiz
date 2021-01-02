@@ -209,3 +209,16 @@ Also, make sure the only content on `app.component.html` is this:
   <router-outlet></router-outlet>
 </div>
 ```
+
+### Adding Bootstrap
+
+This looks horrible, so let's add Bootstrap: `npm install bootstrap`
+and also add the styles to the `angular.json` file:
+
+```
+"styles": [
+  "src/styles.css",
+  "node_modules/bootstrap/dist/css/bootstrap.min.css"
+],
+"scripts": ["node_modules/bootstrap/dist/js/bootstrap.min.js"]
+```
