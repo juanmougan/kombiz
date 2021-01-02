@@ -108,9 +108,6 @@ class DriverComponent {
         this.dataService.getDrivers().subscribe((next) => {
             this.drivers = next;
         });
-        this.drivers.forEach((element) => {
-            console.log(element);
-        });
     }
 }
 DriverComponent.ɵfac = function DriverComponent_Factory(t) { return new (t || DriverComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_data_service__WEBPACK_IMPORTED_MODULE_1__["DataService"])); };

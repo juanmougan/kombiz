@@ -1,22 +1,28 @@
-[This was the main tutorial](https://medium.com/@samgreen_22756/angular-8-with-rails-5-55cd186a02c9) I've followed to get this working. Other alternatives, like getting Angular served from `app/javascript`, didn't work so well for me.
+# Kombiz
 
-Angular
-ng new kombiz
+This is a sample Rails, Angular, PostgreSQL and Bootstrap based fullstack app, that was created as a demosntration of the technologies used. To get this created, I've started reading [this tutorial](https://medium.com/@samgreen_22756/angular-8-with-rails-5-55cd186a02c9) to get this built, because other alternatives, like getting Angular served from `app/javascript`, didn't work so well for me.
+
+## Setting up everything
+
+### Angular
+
+I started the project with the Angular app: `ng new kombiz`. In the interactive prompt, these are the options I've chosen:
 
 Strict? no
 Routing? yes
 CSS? CSS
 
-cd kombiz/
+### Rails
 
-Rails, create the app on that same directory
-rails new . -T --skip-turbolinks --webpack=angular
-Answer 'n' to all overwrite questions
+Then, `cd kombiz/` and create the Rails app _in the same directory_: `rails new . -T --skip-turbolinks --webpack=angular`. Make sure to answer _n_ to all the overwrite questions.
 
-rails new . -T --skip-turbolinks --skip-sprockets --skip-turbolinks
+#### Routing on Rails
 
-Create a controller to handle all routes
-$ bundle exec rails g controller StaticController
+Create a controller to handle all the routes
+
+```
+bundle exec rails g controller StaticController
+```
 
 And add this content
 
@@ -39,7 +45,9 @@ Rails.application.routes.draw do
 end
 ```
 
-Since this is a SPA, we're going to use [Angular Router](https://angular.io/api/router) instead
+Since this is a SPA, we're going to use [Angular Router](https://angular.io/api/router) to do the actual routing, so we only want Rails to serve a single route, the static one.
+
+#### Getting everything running with Foreman
 
 Add Foreman to the Gemfile
 
@@ -55,13 +63,19 @@ And run `bundle` to install the dependencies
 Then, create a `Procfile` file, with this content
 
 ```
+client: rm -rf public/* && ng build --watch=true
 web: rails s -p 3000
-client: ng build --watch=true
 ```
 
-Create a component
+At this point, you should have a running app 🎉!
 
-Create a Component to match our `driver`'s controller: `ng g c driver`
+## Adding some content in the UI
+
+Since `Kombiz` is a carpooling app, a `Driver` is an important entity, so let's get some drivers shown in our UI.
+
+### Creating a component
+
+Create a Component to display our `driver`s: `ng g c driver`
 This will create all the needed files
 
 ```
@@ -72,7 +86,9 @@ CREATE src/app/driver/driver.component.ts (275 bytes)
 UPDATE src/app/app.module.ts (475 bytes)
 ```
 
-Create some fake data
+#### Showing some data
+
+Let's create some fake data for now, we'd like to get real drivers from the backend eventually. To do so, let's follow these steps:
 
 1. Create a model class to represent the Driver:
 
@@ -178,7 +194,7 @@ export class DriverComponent implements OnInit {
 
 Then, get the JavaScript dependencies with: `npm i`
 
-## Some errors
+### Some errors
 
 I got this error (on the Rails side)
 
@@ -187,9 +203,9 @@ I got this error (on the Rails side)
 18:51:53 web.1    | to `false` in your webpacker config file (config/webpacker.yml).
 ```
 
-So, I changed it to `false`
+So, I changed it to `false` in my `config/webpacker.yml` file.
 
-Then, I got a `Template is missing`, which was solved by reinstalling the dependencies:
+Then, I got a `Template is missing`, which was solved by reinstalling the dependencies.
 
 ```
 rm -rf node_modules/
@@ -212,7 +228,7 @@ Also, make sure the only content on `app.component.html` is this:
 </div>
 ```
 
-### Adding Bootstrap
+## Adding Bootstrap
 
 This looks horrible, so let's add Bootstrap: `npm install bootstrap`
 and also add the styles to the `angular.json` file:
@@ -225,9 +241,11 @@ and also add the styles to the `angular.json` file:
 "scripts": ["node_modules/bootstrap/dist/js/bootstrap.min.js"]
 ```
 
-### Adding Font Awesome
+I'm not specifying any Bootstrap classes here, you should use the ones you prefer.
 
-Install the free version: `npm install --save @fortawesome/fontawesome-free`
+## Adding Font Awesome
+
+I'm going to add Font Awesome now, so that we can use a few of its icons. To do so, install the free version: `npm install --save @fortawesome/fontawesome-free`
 
 Add the CSS to the `angular.json` file, otherwise the icons won't be rendered:
 
@@ -239,7 +257,7 @@ Add the CSS to the `angular.json` file, otherwise the icons won't be rendered:
 ]
 ```
 
-#### Changes in the model
+### Changes in the model
 
 The model class now will look like this:
 
@@ -261,6 +279,7 @@ export enum VehicleType {
 Add the new field to the datasource, so we get all the possible vehicle types:
 
 ```
+...
 constructor() {
     this.drivers = new Array<Driver>();
 
@@ -285,6 +304,7 @@ constructor() {
     driver1.vehicleType = VehicleType.TRUCK;
     this.drivers.push(driver3);
   }
+...
 ```
 
 The `driver.component.html` will look like this now:
@@ -315,7 +335,9 @@ The `driver.component.html` will look like this now:
 </table>
 ```
 
-### Adding a 404 page
+I've used a [ngSwitch](https://angular.io/api/common/NgSwitch) directive here, because I wasn't able to add the relevant classes dynamically using [ngClass](https://angular.io/api/common/NgClass). I don't know why, maybe the condition I wrote wasn't the correct one. Anyway, `ngIf` did the trick.
+
+## Adding a 404 page
 
 To add a default 404 page, so that we make sure that all possible routes are properly handled, let's create a new component
 
@@ -364,7 +386,7 @@ const routes: Routes = [
 ];
 ```
 
-## Rails routing errors
+### Rails routing errors
 
 If you see an error, where Rails is complaining about finding a template
 
@@ -372,4 +394,9 @@ If you see an error, where Rails is complaining about finding a template
 Missing template Users/juanma/dev/fullstack/kombiz/public/index.html with {:locale=>[:en], :formats=>[:html], :variants=>[], :handlers=>[:raw, :erb, :html, :builder, :ruby, :jbuilder]}. Searched in: * "/Users/juanma/dev/fullstack/kombiz/app/views" * "/Users/juanma/.rvm/gems/ruby-2.7.0/gems/actiontext-6.0.3.4/app/views" * "/Users/juanma/.rvm/gems/ruby-2.7.0/gems/actionmailbox-6.0.3.4/app/views" * "/Users/juanma/dev/fullstack/kombiz" * "/"
 ```
 
-You should wait for the full frontend to finish building.
+You should wait for the full frontend (the `client` command) to finish building.
+
+## Summary
+
+I'm not a great fan of this Angular and Rails structure, for several reasons. For starters, it mixes up the folder structure of both frameworks, and it feels as if you're neglecting some of Rails' features (like the routing, for example).  
+Anyway, it was a great starting point for a fullstack app, and it works propery.
