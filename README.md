@@ -8,9 +8,11 @@ This is a sample Rails, Angular, PostgreSQL and Bootstrap based fullstack app, t
 
 I started the project with the Angular app: `ng new kombiz`. In the interactive prompt, these are the options I've chosen:
 
+```
 Strict? no
 Routing? yes
 CSS? CSS
+```
 
 ### Rails
 
